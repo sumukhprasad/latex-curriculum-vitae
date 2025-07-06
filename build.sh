@@ -6,7 +6,7 @@ echo "\033[1mRemoving AUX files...\033[0m"
 rm example.aux
 rm example.log
 rm example.synctex.gz
-open ./example.pdf
+# open ./example.pdf
 
 
 echo
