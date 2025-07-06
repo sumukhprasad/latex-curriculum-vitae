@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}[1995/12/01]
-\ProvidesClass{curriculum-vitae}[2025/06/06 v2.0 LaTeX class for curriculum vitae]
+\ProvidesClass{curriculum-vitae}[2025/06/06 v2.1 LaTeX class for curriculum vitae]
 
 \LoadClass[onecolumn]{article}
 \RequirePackage{titlesec}
@@ -11,6 +11,8 @@
 \RequirePackage{ragged2e}
 \RequirePackage{parskip}
 \RequirePackage{setspace}
+\RequirePackage{tikz}
+\RequirePackage[skins,breakable]{tcolorbox}
 
 \RequirePackage[ultralight]{FiraSans}
 \renewcommand*\oldstylenums[1]{{\firaoldstyle #1}}
@@ -67,20 +69,30 @@
 
 
 % === 2-col cvsection ===
-\NewDocumentCommand{\cvsection}{O{}+m}{
-	\noindent
-	\begin{minipage}[t]{0.25\linewidth}
-		\raggedright
-		{\huge\sffamily #1}
-	\end{minipage}%
-	\hspace{1em}%
-	\begin{minipage}[t]{0.7\linewidth}
-		#2
-	\end{minipage}
-	\vspace{1em}
+
+% -------- cvsection v2 --------
+\NewDocumentEnvironment{cvsection}{ O{} } % [title]
+{%
+	\begin{tcolorbox}[
+		blanker,
+		width=0.7\linewidth,
+		enlarge left by=0.3\linewidth,
+		before skip=0pt,
+		breakable,
+		overlay unbroken and first={
+			\node[anchor=north west, inner sep=0pt, outer sep=0pt, text width=0.28\textwidth] 
+			at ([xshift=-0.305\textwidth]frame.north west)
+			{%
+				{\huge\sffamily #1}
+			};
+		},
+	]
+}
+{%
+	\end{tcolorbox}
+	\noindent\vspace{1em}\\
 }
 
 % === Detail environment ===
 \NewDocumentEnvironment{detail}{O{} m m}{
-		{{\bfseries#1}\addcontentsline{toc}{subsection}{#1}}\hfill#2 -- #3\\%
-}{\noindent\vspace{0.5cm}\\}
+		{{\bfseries#1}\addcontentsline{toc}{subsection}{#1}}\hfill#2 -- #3\\}{\noindent\\}
