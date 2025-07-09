@@ -16,6 +16,7 @@
 
 \RequirePackage[ultralight]{FiraSans}
 \renewcommand*\oldstylenums[1]{{\firaoldstyle #1}}
+\definecolor{themecolor}{HTML}{3366FF}
 
 % === User Info Variables ===
 \newcommand{\@cvname}{}
@@ -83,7 +84,7 @@
 			\node[anchor=north west, inner sep=0pt, outer sep=0pt, text width=0.28\textwidth] 
 			at ([xshift=-0.305\textwidth]frame.north west)
 			{%
-				{\huge\sffamily #1}
+				{\huge\sffamily\color{themecolor} #1}
 			};
 		},
 	]
