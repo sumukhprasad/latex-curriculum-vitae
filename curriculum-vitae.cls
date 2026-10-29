@@ -26,8 +26,8 @@
 \tl_new:N \g_cv_body_color_tl
 
 % Defaults
-\tl_gset:Nn \g_cv_layout_tl { side-by-side }
-\tl_gset:Nn \g_cv_header_tl { default }
+\tl_gset:Nn \g_cv_layout_tl { stacked-compact }
+\tl_gset:Nn \g_cv_header_tl { compact }
 \tl_gset:Nn \g_cv_heading_font_tl { sans }
 \tl_gset:Nn \g_cv_body_font_tl { serif }
 
@@ -418,7 +418,7 @@
 				{ centered } { \cv_header_centered: }
 				{ original } { \cv_header_original: }
 			}
-			{ \cv_header_default: }
+			{ \cv_header_compact: }
 	}
 
 % === apply body style ===
