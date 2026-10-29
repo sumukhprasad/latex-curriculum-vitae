@@ -15,13 +15,6 @@
 \RequirePackage{fontawesome6}
 \RequirePackage[skins,breakable]{tcolorbox}
 
-
-
-
-
-
-
-
 % configuration...
 \ExplSyntaxOn
 \tl_new:N \g_cv_layout_tl
@@ -33,20 +26,20 @@
 \tl_new:N \g_cv_body_color_tl
 
 % Defaults
-\tl_gset:Nn \g_cv_layout_tl				 { side-by-side }
-\tl_gset:Nn \g_cv_header_tl				 { default }
-\tl_gset:Nn \g_cv_heading_font_tl	 { sans }
-\tl_gset:Nn \g_cv_body_font_tl		 { serif }
+\tl_gset:Nn \g_cv_layout_tl { side-by-side }
+\tl_gset:Nn \g_cv_header_tl { default }
+\tl_gset:Nn \g_cv_heading_font_tl { sans }
+\tl_gset:Nn \g_cv_body_font_tl { serif }
 
-\tl_gset:Nn \g_cv_accent_color_tl	 { AA0000 }
+\tl_gset:Nn \g_cv_accent_color_tl { AA0000 }
 \tl_gset:Nn \g_cv_heading_color_tl { AA0000 }
-\tl_gset:Nn \g_cv_body_color_tl		 { 000000 }
+\tl_gset:Nn \g_cv_body_color_tl { 000000 }
 
 % Keys
 \keys_define:nn { cv }
 	{
 		layout .choices:nn =
-			{ side-by-side, stacked }
+			{ side-by-side, stacked, stacked-compact }
 			{
 				\tl_gset:Nx \g_cv_layout_tl
 					{ \l_keys_choice_tl }
@@ -172,7 +165,16 @@
 			}
 			{ \rmfamily }
 	}
-	
+
+
+
+
+
+
+
+
+
+
 % === header components ===
 \cs_new_protected:Npn \cv_header_name:
 	{
@@ -203,13 +205,13 @@
 \cs_new_protected:Npn \cv_header_contacts:
 	{
 		\tl_if_empty:NF \g_cv_phone_tl
-			{ \hspace{10pt} \faIcon{phone} \hspace{4pt} \tl_use:N \g_cv_phone_tl }
+			{ \hspace{10pt} \faIcon{phone}\,\tl_use:N\,\g_cv_phone_tl }
 
 		\tl_if_empty:NF \g_cv_email_tl
-			{ \hspace{10pt} \faIcon{at} \hspace{4pt} \tl_use:N \g_cv_email_tl }
+			{ \hspace{10pt} \faIcon{at}\,\tl_use:N\,\g_cv_email_tl }
 
 		\tl_if_empty:NF \g_cv_web_tl
-			{ \hspace{10pt} \faIcon{link} \hspace{4pt} \tl_use:N \g_cv_web_tl }
+			{ \hspace{10pt} \faIcon{link}\,\tl_use:N\,\g_cv_web_tl }
 	}
 
 \cs_new_protected:Npn \cv_header_address:
@@ -217,6 +219,15 @@
 		\tl_if_empty:NF \g_cv_addr_tl
 			{ \par \tl_use:N \g_cv_addr_tl }
 	}
+
+
+
+
+
+
+
+
+
 
 % === headers ===
 \cs_new_protected:Npn \cv_header_default:
@@ -301,6 +312,102 @@
 		\vspace{1em}
 	}
 
+
+
+
+
+
+
+
+
+
+% === sections ===
+\cs_new_protected:Npn \cv_section_side_by_side:n #1
+	{
+		\begin{tcolorbox}[
+			blanker,
+			width=0.7\linewidth,
+			enlarge~left~by=0.3\linewidth,
+			before~skip=0pt,
+			after~skip=0pt,
+			breakable,
+			overlay~unbroken~and~first={
+				\node[
+					anchor=north~west,
+					inner~sep=0pt,
+					outer~sep=0pt,
+					text~width=0.28\textwidth
+				]
+				at~([xshift=-0.305\textwidth]frame.north~west)
+				{
+					{
+						\cv_heading_font:
+						\huge
+						\color{cvaccent}
+						#1
+					}
+				};
+			},
+		]
+
+		\setlength{\parskip}{0.5em}
+		\setlength{\baselineskip}{1.5em}
+	}
+
+\cs_new_protected:Npn \cv_section_stacked:n #1
+	{
+		\par\addvspace{1.2em}
+
+		\noindent
+		{
+			\cv_heading_font:
+			\Large
+			\bfseries
+			\color{cvaccent}
+			#1
+		}
+
+		\par\smallskip
+
+		\begin{tcolorbox}[
+			blanker,
+			width=\linewidth,
+			before~skip=0pt,
+			after~skip=0pt,
+			breakable,
+		]
+
+		\setlength{\parskip}{0.5em}
+		\setlength{\baselineskip}{1.5em}
+	}
+
+\cs_new_protected:Npn \cv_section_stacked_compact:n #1
+	{
+		\par\addvspace{1.2em}
+
+		\noindent
+		{
+			\cv_heading_font:
+			\large
+			\bfseries
+			\color{cvaccent}
+			#1
+		}
+
+		\par\smallskip
+		\setlength{\parskip}{0.25em}
+		\setlength{\baselineskip}{1em}
+	}
+
+
+
+
+
+
+
+
+
+
 % === maketitle ===
 \RenewDocumentCommand \maketitle { }
 	{
@@ -320,6 +427,46 @@
 		\cv_body_font:
 		\color{cvbody}
 	}
+	
+	
+\NewDocumentEnvironment{cvsection}{ O{} }
+	{
+		\begingroup
+		\str_case:VnF \g_cv_layout_tl
+			{
+				{ side-by-side }
+					{ \cv_section_side_by_side:n { #1 } }
+
+				{ stacked }
+					{ \cv_section_stacked:n { #1 } }
+
+				{ stacked-compact }
+					{ \cv_section_stacked_compact:n { #1 } }
+			}
+			{
+				\cv_section_stacked_compact:n { #1 }
+			}
+	}
+	{
+		\str_case:VnF \g_cv_layout_tl
+			{
+				{ side-by-side }
+					{ \end{tcolorbox} }
+
+				{ stacked }
+					{ \end{tcolorbox} }
+
+				{ stacked-compact }
+					{}
+			}
+			{}
+		\endgroup
+		\par\addvspace{1em}
+	}
+
+\newenvironment{detail}[3][]{%
+    {{\bfseries#1}\addcontentsline{toc}{subsection}{#1}}\hfill#2 -- #3\\%
+}{}
 
 \AtBeginDocument{\cv_apply_body_style:}
 
