@@ -9,6 +9,8 @@ cd ctan-dist
 
 mv example.tex curriculum-vitae-example.tex
 mv example.pdf curriculum-vitae-example.pdf
+mv documentation.tex curriculum-vitae-documentation.tex
+mv documentation.pdf curriculum-vitae-documentation.pdf
 rm -rf .git
 rm -rf __MACOSX
 rm build.sh
