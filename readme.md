@@ -3,7 +3,7 @@
 This is a lightweight class file that makes it convenient to typeset CVs/resumes with LaTeX. It provides a `\cvsection` command and `detail` environment. A sample is included in curriculum-vitae.tex.
 
 ```
-Copyright 2023 Sumukh Prasad
+Copyright 2026 Sumukh Prasad
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
